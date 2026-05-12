@@ -1,7 +1,6 @@
 .env
 .env.*
-!.env.sample
-!.env.development
+docker-compose.local.yml
 vendor/
 bin/
 *.test
