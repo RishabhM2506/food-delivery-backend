@@ -7,3 +7,4 @@ bin/
 coverage.out
 *.pb.go
 .cache/
+.vscode/

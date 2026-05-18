@@ -6,13 +6,13 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	"github.com/redis/go-redis/v9"
+	"github.com/rs/zerolog"
 	"github.com/segmentio/kafka-go"
-	"go.uber.org/zap"
 )
 
 type Container struct {
 	Config      *config.Config
-	Logger      *zap.Logger
+	Logger      zerolog.Logger
 	DB          *sqlx.DB
 	Redis       *redis.Client
 	KafkaWriter *kafka.Writer

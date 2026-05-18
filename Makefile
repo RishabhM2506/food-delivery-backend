@@ -9,6 +9,15 @@ compose-down:
 compose-logs:
 	docker compose -f $(COMPOSE_FILE) logs -f
 
+up: compose-up
+
+down: compose-down
+
+logs: compose-logs
+
+run:
+	go run ./cmd/server
+
 test:
 	go test -race ./...
 lint:
