@@ -23,28 +23,27 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	log, err := logger.New(cfg.App.LogLevel)
+	log, err := logger.New(cfg.App.Env, cfg.App.LogLevel)
 	if err != nil {
 		panic(err)
 	}
-	defer log.Sync()
 
 	db, err := postgres.NewPostgresDB(cfg)
 	if err != nil {
-		log.Fatal("db")
+		log.Fatal().Err(err).Msg("db")
 	}
 	_ = postgres.RunMigrations(db.DB, "./migrations")
 	rdb, err := redis.NewRedisClient(cfg)
 	if err != nil {
-		log.Fatal("redis")
+		log.Fatal().Err(err).Msg("redis")
 	}
 	kw, err := kafka.NewProducer(cfg)
 	if err != nil {
-		log.Fatal("kafka")
+		log.Fatal().Err(err).Msg("kafka")
 	}
 	oc, err := grpcclient.NewOrderServiceClient(cfg)
 	if err != nil {
-		log.Fatal("grpc")
+		log.Fatal().Err(err).Msg("grpc")
 	}
 
 	deps := &app.Container{Config: cfg, Logger: log, DB: db, Redis: rdb, KafkaWriter: kw, OrderClient: oc}

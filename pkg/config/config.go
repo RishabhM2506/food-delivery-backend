@@ -44,11 +44,14 @@ type Config struct {
 func (c Config) RateWindow() time.Duration { return time.Duration(c.RateLimit.WindowSec) * time.Second }
 
 func Load() (*Config, error) {
-	viper.SetConfigFile(".env.development")
 	viper.SetConfigType("env")
 	viper.AutomaticEnv()
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
-	_ = viper.ReadInConfig()
+	viper.SetConfigFile(".env")
+	if err := viper.ReadInConfig(); err != nil {
+		viper.SetConfigFile(".env.development")
+		_ = viper.ReadInConfig()
+	}
 	cfg := &Config{}
 	cfg.App.Name = viper.GetString("APP_NAME")
 	cfg.App.Env = viper.GetString("APP_ENV")
